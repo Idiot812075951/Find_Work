@@ -113,21 +113,22 @@ def bucket_sort_simplify(arr, max_num):  #  a=bucket_sort_simplify(arr,max(arr))
         if buf[i]:
             arr.extend(sorted(buf[i]))  # 这里还需要对一个范围内的数据进行排序，然后再进行输出
     return arr
-def countingSort(arr, maxValue):
-    bucketLen = maxValue+1
-    bucket = [0]*bucketLen
-    sortedIndex =0
-    arrLen = len(arr)
-    for i in range(arrLen):
-        if not bucket[arr[i]]:
-            bucket[arr[i]]=0
-        bucket[arr[i]]+=1
-    for j in range(bucketLen):
-        while bucket[j]>0:
-            arr[sortedIndex] = j
-            sortedIndex+=1
-            bucket[j]-=1
-    return arr
+def count_sort(s):
+    """计数排序"""
+    # 找到最大最小值
+    min_num = min(s)
+    max_num = max(s)
+    # 计数列表
+    count_list = [0]*(max_num-min_num+1)
+    # 计数
+    for i in s:
+        count_list[i-min_num] += 1
+    s.clear()
+    # 填回
+    for ind,i in enumerate(count_list):
+        while i != 0:
+            s.append(ind+min_num)
+            i -= 1
 def shell_sort(alist):
     #这里的step相当于是，gap，增量，分成几个堆
     step = len(alist) // 2 #相当于是int(len(alist)/2)
@@ -327,21 +328,24 @@ def zc_bucket_sort_simplify(arr, max_num):  #  a=bucket_sort_simplify(arr,max(ar
     return arr
 
 
-def zc_countingSort(arr, maxValue):
-    bucketLen = maxValue+1
-    bucket = [0]*bucketLen
-    sortedIndex =0
-    arrLen = len(arr)
-    for i in range(arrLen):
-        if not bucket[arr[i]]:
-            bucket[arr[i]]=0
-        bucket[arr[i]]+=1
-    for j in range(bucketLen):
-        while bucket[j]>0:
-            arr[sortedIndex] = j
-            sortedIndex+=1
-            bucket[j]-=1
-    return arr
+
+def zc_count_sort(s):#它是没有返回值的，直接在原来的列表上操作
+    """计数排序"""
+    # 找到最大最小值
+    #如果遇到小数就拉闸了！
+    min_num = min(s)  #这是一个元素值，是值！
+    max_num = max(s)  #
+    # 计数列表，它是确定一个区间
+    count_list = [0]*(max_num-min_num+1)  #如果出现了小数，这里就报错了！count_list是有(max_num-min_num+1)个0的列表
+    # 计数
+    for i in s:
+        count_list[i-min_num] += 1
+    s.clear()
+    # 填回
+    for ind,i in enumerate(count_list):
+        while i != 0:
+            s.append(ind+min_num)
+            i -= 1
 
 
 def zc_shell_sort(alist):
@@ -361,11 +365,4 @@ def zc_shell_sort(alist):
 
 
 
-
-n = len(arr)
-print("排序后")
-
-
-a=bucket_sort_simplify(arr,max(arr))
-print(a)
 
